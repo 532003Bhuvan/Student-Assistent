@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyAI — Your Academic Brain</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+
+  <aside class="sidebar">
+    <div class="logo-section">
+      <div class="logo-icon">🧠</div>
+      <div class="logo-wordmark">
+        <span class="logo-name">StudyAI</span>
+        <span class="logo-sub">Your Academic Brain</span>
+      </div>
+    </div>
+
+    <div class="sidebar-body">
+
+      <div class="section">
+        <span class="section-label">Upload Files</span>
+        <div class="upload-drop" id="uploadDrop">
+          <input type="file" id="fileInput"
+                 accept=".pdf,.docx,.pptx,.txt"
+                 multiple onchange="showFileSelected()">
+          <span class="upload-emoji">📎</span>
+          <p><strong>Click to browse</strong> or drag &amp; drop</p>
+          <p class="upload-types">PDF · DOCX · PPTX · TXT</p>
+        </div>
+        <div id="fileName" style="display:none;"></div>
+        <div id="uploadError" style="display:none;" class="upload-error-banner"></div>
+        <button id="uploadBtn" onclick="uploadFile()">
+          ↑ &nbsp;Upload to StudyAI
+        </button>
+      </div>
+
+      <div class="section">
+        <span class="section-label">Your Documents</span>
+        <!--
+          ── FILE LIST ──────────────────────────────────────
+          This div is intentionally left empty in the HTML.
+          refreshFileList() in script.js populates it on every
+          page load and after every upload — so files never
+          appear twice and the list is always in sync with the
+          backend without a full page reload.
+        -->
+        <div id="fileList" class="file-list"></div>
+        <p id="filesSelected" class="file-selection-info"></p>
+      </div>
+
+      <div class="section">
+        <span class="section-label">Quick Tools</span>
+        <div class="tools-grid">
+          <button class="tool-btn summary" onclick="getSummary()">
+            <div class="tool-icon-wrap">📋</div>
+            <div class="tool-meta">
+              <span class="tool-name">Summary</span>
+              <span class="tool-desc">Summarise your docs</span>
+            </div>
+          </button>
+          <button class="tool-btn quiz" onclick="getQuiz()">
+            <div class="tool-icon-wrap">🎯</div>
+            <div class="tool-meta">
+              <span class="tool-name">Quiz Me</span>
+              <span class="tool-desc">10-question quiz</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <div class="chat">
+    <div class="chat-header">
+      <h1>Ask anything about your documents</h1>
+      <div class="header-badge">
+        <div class="status-dot"></div>
+        AI Ready
+      </div>
+    </div>
+    <div id="messages"></div>
+    <div class="input-box">
+      <input id="question"
+             placeholder="Ask a question… or try 'explain in detail'"
+             onkeypress="if(event.key==='Enter') askQuestion()">
+      <button class="send-btn" onclick="askQuestion()" title="Send">➤</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="pdfViewer" class="pdf-overlay">
+  <div class="pdf-toolbar">
+    <span class="pdf-title" id="pdfTitle">Document Preview</span>
+    <button class="close-btn" onclick="closePDF()">✕ Close</button>
+  </div>
+  <iframe id="pdfFrame"></iframe>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
